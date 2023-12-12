@@ -9,7 +9,7 @@ from aiogram.types import Message
 from utils import daily_summary
 
 
-bot = Bot(token='token', parse_mode='HTML')
+bot = Bot(token='6716211777:AAGJrwvEVLodkQco1VEQNzXx6MheUDXPy1k', parse_mode='HTML')
 router = Router()
 
 
@@ -31,7 +31,7 @@ async def send_daily_report():
         text = f'Всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
                f'Сведения о госпитализациях: {hospitalization}'
-    await bot.send_message(chat_id='groupID', text=text)
+    await bot.send_message(chat_id='-1001396112169', text=text)
 
 
 async def scheduler():
