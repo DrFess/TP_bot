@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "drfesspythonpatients",
+  "private_key_id": "d2753fe598e745770c3209e3db1b617089651b5e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC6O9wRgcpOQC82\n+KMqVs21Y3V/mS0J7HKCL4g+Uq5jpRKGAaBeDr5Q5lq2cRDsohUJqjrHJh2Vfdek\n4x5NbkjBn7pt7n6TTnPyLzVrWay5x8Snu9DxywOMf4epg8tdlJo4BuNq1QyW7NG7\nORx5Hwu56SSWSL+pG4ws91YyBhancoQDfQVc6vhC2/a2W+W1fPyi5tRzjrCdQ8Gt\nRmcbTT5BGqbOp6CKoz8zlmktuPknEGJu8PN54jKhNjnZVLR7sN4IfN39eL/VggH0\n9DmKIUKr5K07AwOhGjkSb29idBEDRcCzWW27wdQVaSkfVrgH6+PzrXlwMA1OOI6L\nwqWbY8KFAgMBAAECggEAI7Hd9hAPp8xnEEz7Lx4ImwvnZS/FgWmrr/au0S01Rh2J\nTZyJsYV3ZlekiuPkd8qAKERTtECCupiuaKjscbBh6xSznabw5UiL8h8oyLzdHZWj\nxHd77qA3+6mk5bGAXN0i6vqtA5i2q0XUVCN36OIxs+4zCEgEzkOcrDCy+W8P0AOP\nyeT9NsJ/4cnPI5BmXmP33Tz0hmAKI+Dvqca54VhQEzCy95GiIXjP5RJmEuXCn3gU\nzEVS5SqrHStjM4L58NUf7PIU3CnB4oxwhSdyxpK8ALT122e0a4frU1qUeh6WW0yD\nG4F7VsrbizUp6OeLnSS3/NxgOym9j5b/8aBOaJ1VYQKBgQDrLL2R9GArQnmk3WCf\nGxqQ+kSKAOdQ0eCBHL1Iya5PK8vCdD44TmSGLxapEcMoinQYffEjfP5EIusmW0mW\nbGgJEvcA07+NIJtDr8frmeQsvsecBY3d4nNA0ddctHgmfOX0d3953fw1MUUwk0mN\nxXmSsobP3+z4cse1eUKaeaWu4QKBgQDKuajklEyRMKvANrWBebFkuvmDLz12odDV\n2ZCj/uyrpTJQ203LCT1irKT7Yke45RFjPcN/yDI7QigTbZ0I+vghpzeZFAGJUOT9\nOPiZ+e3d03So5VTzTJFHKzjoATCS4zVaXAJpC+dKwB1Ip6hAoMTs9QYX0G3yT6wv\nHAsM88z8JQKBgHwHyKMlg2LNWGJ+7up63PQBSgyOlXCmgAUYJywwUeIncvtHW1lO\n3u12ADmCyK6k9r3EDl1tGpzM3cAI/TJ8UhIXEnY5NxkzTS/RkVrMeu6uX5AFzeBs\nAeT5xt95vrRtwsnADFc1oEJdjeQkifJfZ9LanQcdTllqD7HCFkJqTduBAoGAE5iU\nwduv9wzsXT0smGJqCmGkgtDLMS99H17Tg3a96+2hCn3YbDrtax9jJ0WdxzqlTqGG\nx1BTwrSnaRFcb6TK3X3reumbKGngaLXcGg41tw6cpULdzlLlbCq6anrK9jfuTVi9\nhuf2qJwfeIl0UyL3Rix9NUoZhqW68CbWzp62ft0CgYA2MUZq8kXl5Js0usDKwHBp\nc24Zleqb4siLLx7N6bincJydNwigogf6npSLYphEbvIhXWJSOam2IfF3kpRJxAPn\no9ni7lb3clKfpMwbFi3PJ3tRDJTekPl6EXWqDn5KAJ0hiIvEpDlUgghMMAr5HvQE\nRmr/sqSeiehZOQP7VzB+Mg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "traumapatientspython@drfesspythonpatients.iam.gserviceaccount.com",
+  "client_id": "117642155127898267889",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/traumapatientspython%40drfesspythonpatients.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
