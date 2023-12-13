@@ -1,3 +1,5 @@
+from itertools import zip_longest
+
 import gspread
 
 
@@ -8,7 +10,7 @@ def daily_summary():
     data = sh.worksheet('Отчёт за сутки')
 
     if len(data.col_values(5)) > 2:
-        hospitalization = list(zip(data.col_values(7), data.col_values(6), data.col_values(8)))[2::]
+        hospitalization = list(zip_longest(data.col_values(7), data.col_values(6), data.col_values(8), fillvalue='нет данных'))[2::]
     else:
         hospitalization = 'не было'
 
