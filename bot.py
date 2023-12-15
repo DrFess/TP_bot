@@ -21,7 +21,7 @@ async def command_start_handler(message: Message):
 @router.message()
 async def send_daily_report():
     data = daily_summary()
-    if data['экстренных госпитализаций'] == 0:
+    if data['экстренных госпитализаций'] == '0':
         text = f'Всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}'
     else:
@@ -35,7 +35,7 @@ async def send_daily_report():
 
 
 async def scheduler():
-    aioschedule.every().day.at('08:55').do(send_daily_report)
+    aioschedule.every().day.at('16:30').do(send_daily_report)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
