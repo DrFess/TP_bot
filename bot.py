@@ -6,12 +6,13 @@ from aiogram import Bot, Dispatcher, Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 
+from settings import TOKEN, moders, group_id
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
 from handlers import duty_handler, add_month_duty
 
 
-bot = Bot(token='6716211777:AAGJrwvEVLodkQco1VEQNzXx6MheUDXPy1k', parse_mode='HTML')
+bot = Bot(token=TOKEN, parse_mode='HTML')
 router = Router()
 
 
@@ -22,7 +23,7 @@ async def command_start_handler(message: Message):
 
 @router.message(F.text == '\U0001F519 Назад')
 async def back_step(message: Message):
-    if message.from_user.id in (741085465, 618071339, 233759537):
+    if message.from_user.id in moders:
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
     else:
         await message.answer(
@@ -44,11 +45,12 @@ async def send_daily_report():
         text = f'Всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
                f'Сведения о госпитализациях: {hospitalization}'
-    await bot.send_message(chat_id='-1001396112169', text=text, disable_notification=True)
+    await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
+    aioschedule.every().day.at('00:00').do(send_daily_report)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
