@@ -48,7 +48,7 @@ async def send_daily_report():
 
 
 async def scheduler():
-    aioschedule.every().day.at('17:00').do(send_daily_report)
+    aioschedule.every().day.at('16:30').do(send_daily_report)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
