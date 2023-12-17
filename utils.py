@@ -1,6 +1,7 @@
 from itertools import zip_longest
 import time
 import calendar
+import json
 
 import gspread
 
@@ -122,57 +123,46 @@ def clear_duty_schedule():
     )
 
 
-current_month = get_dates_you_need(2024, 1)
+def open_data_file(path_to_file: str):
+    """Открывает указанный JSON файл"""
+    with open(f'database/{path_to_file}', 'r') as file:
+        data = json.load(file)
+    return data
 
-employees_ban_weekdays = {
-        'Преториус Т.Л.': [],
-        'Решетова Ю.В.': [],
-        'Докучаев М.А.': ['Сб'],
-        'Колганов И.В.': [],
-        'Цыренов Ж.Э.': ['Пн', 'Ср', 'Сб'],
-        'Остапенко В.Г.': ['Пн', 'Ср', 'Сб', 'Вс'],
-        'Зеленин И.В.': ['Вт'],
-        'Решетов А.В.': [],
-        'Дегтярев А.А.': [],
-        'Забинов В.К.': [],
-        'Шпагин Д.Е.': [],
-        'Ипатьева Е.Л.': ['Пн', 'Чт'],
-        'Казанцев А.В.': [],
-        'Гуфайзин И.В.': [],
-        'Негрей М.К': [],
-        'Черноусова Е.Л.': [],
-    }
 
-employees_wishes_weekdays = {
-        'Преториус Т.Л.': [],
-        'Решетова Ю.В.': [],
-        'Докучаев М.А.': [],
-        'Колганов И.В.': ['Пн', 'Чт'],
-        'Цыренов Ж.Э.': [],
-        'Остапенко В.Г.': [],
-        'Зеленин И.В.': [],
-        'Решетов А.В.': ['Вс'],
-        'Дегтярев А.А.': [],
-        'Забинов В.К.': ['Пт'],
-        'Шпагин Д.Е.': [],
-        'Ипатьева Е.Л.': [],
-        'Казанцев А.В.': [],
-        'Гуфайзин И.В.': [],
-        'Негрей М.К': [],
-        'Черноусова Е.Л.': ['Пт'],
-    }
+def write_doctors_wishes_str(doctor: str, wish: str):
+    """Записывает пожелания врача"""
+    data = open_data_file('wish_days.json')
+    doc = data[doctor]
+    doc.append(wish)
+
+    with open('database/wish_days.json', 'w') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+
+def write_doctors_ban_str(doctor: str, ban_day: str):
+    """Записывает дни в которые ставить смены нельзя"""
+    data = open_data_file('ban_days.json')
+    doc = data[doctor]
+    doc.append(ban_day)
+
+    with open('database/ban_days.json', 'w') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+
+# current_month = get_dates_you_need(2024, 1)
 
 # add_days_duty_schedule(current_month)
 # formatting_duty_schedule()
 # time.sleep(60)
+
 # for doc in employees_ban_weekdays:
 #     for item in employees_ban_weekdays[doc]:
 #         set_restricted_cells(doc, item, 'X')
 
 
-for doc in employees_wishes_weekdays:
-    for item in employees_wishes_weekdays[doc]:
-        set_restricted_cells(doc, item, '*')
-
+# for doc in employees_wishes_weekdays:
+#     for item in employees_wishes_weekdays[doc]:
+#         set_restricted_cells(doc, item, '*')
 
 # clear_duty_schedule()
