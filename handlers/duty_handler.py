@@ -1,0 +1,25 @@
+from aiogram import Router, F
+from aiogram.types import Message, ReplyKeyboardMarkup
+
+from keyboards import wishes_or_ban, moderator_menu, back_button
+from utils import clear_duty_schedule
+
+router = Router()
+
+
+@router.message(F.text == 'График')
+async def edit_duty_schedule(message: Message):
+    if message.from_user.id in (741085465, 618071339, 233759537):
+        await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
+    else:
+        await message.answer(
+            f'Вы хотите указать в какие дни ставить или не ставить дежурства? {message.from_user.id}',
+            reply_markup=wishes_or_ban
+        )
+
+
+@router.message(F.text == 'Очистить график')
+async def clear_schedule(message: Message):
+    clear_duty_schedule()
+    await message.answer('График очищен',
+                         reply_markup=ReplyKeyboardMarkup(keyboard=[back_button], resize_keyboard=True))

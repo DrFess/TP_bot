@@ -2,11 +2,13 @@ import asyncio
 import logging
 import aioschedule
 
-from aiogram import Bot, Dispatcher, Router
+from aiogram import Bot, Dispatcher, Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 
+from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
+from handlers import duty_handler, add_month_duty
 
 
 bot = Bot(token='6716211777:AAGJrwvEVLodkQco1VEQNzXx6MheUDXPy1k', parse_mode='HTML')
@@ -18,7 +20,18 @@ async def command_start_handler(message: Message):
     await message.answer('Привет, я - бот для детского травмпункта.')
 
 
-@router.message()
+@router.message(F.text == '\U0001F519 Назад')
+async def back_step(message: Message):
+    if message.from_user.id in (741085465, 618071339, 233759537):
+        await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
+    else:
+        await message.answer(
+            f'Вы хотите указать в какие дни ставить или не ставить дежурства? {message.from_user.id}',
+            reply_markup=wishes_or_ban
+        )
+
+
+@router.message(F.text == 'Отчет')
 async def send_daily_report():
     data = daily_summary()
     if data['экстренных госпитализаций'] == '0':
@@ -45,6 +58,8 @@ async def main():
     dp = Dispatcher()
     dp.include_routers(
         router,
+        duty_handler.router,
+        add_month_duty.router,
     )
     asyncio.create_task(scheduler())
     await bot.delete_webhook(drop_pending_updates=True)
