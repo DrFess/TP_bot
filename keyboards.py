@@ -19,3 +19,10 @@ moderator_menu = ReplyKeyboardMarkup(
     one_time_keyboard=True,
     resize_keyboard=True
 )
+
+select_day_week_or_day_number = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Дни недели', callback_data='day_week')],
+        [InlineKeyboardButton(text='Числа', callback_data='number')]
+    ]
+)

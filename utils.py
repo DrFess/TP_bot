@@ -140,29 +140,15 @@ def write_doctors_wishes_str(doctor: str, wish: str):
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-def write_doctors_ban_str(doctor: str, ban_day: str):
-    """Записывает дни в которые ставить смены нельзя"""
-    data = open_data_file('ban_days.json')
-    doc = data[doctor]
-    doc.append(ban_day)
+def write_doctors_ban_days(doctor: str, ban_day: list, choice: str):
+    """Записывает числа или дни в которые ставить смены нельзя"""
+    data = open_data_file('wish_ban_days.json')
+    data[doctor][choice] = ban_day
 
-    with open('database/ban_days.json', 'w') as file:
+    with open('database/wish_ban_days.json', 'w') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
-# current_month = get_dates_you_need(2024, 1)
-
-# add_days_duty_schedule(current_month)
-# formatting_duty_schedule()
-# time.sleep(60)
-
-# for doc in employees_ban_weekdays:
-#     for item in employees_ban_weekdays[doc]:
-#         set_restricted_cells(doc, item, 'X')
-
-
-# for doc in employees_wishes_weekdays:
-#     for item in employees_wishes_weekdays[doc]:
-#         set_restricted_cells(doc, item, '*')
-
-# clear_duty_schedule()
+def validate_date(dates: str):
+    valid = dates.split(', ')
+    return valid
