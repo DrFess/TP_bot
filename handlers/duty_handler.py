@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardMarkup
 
 from keyboards import wishes_or_ban, moderator_menu, back_button
+from settings import moders
 from utils import clear_duty_schedule
 
 router = Router()
@@ -9,7 +10,7 @@ router = Router()
 
 @router.message(F.text == 'График')
 async def edit_duty_schedule(message: Message):
-    if message.from_user.id in (741085465, 618071339, 233759537):
+    if message.from_user.id in moders:
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
     else:
         await message.answer(

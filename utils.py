@@ -141,7 +141,7 @@ def write_doctors_wishes_str(doctor: str, wish: str):
 
 
 def write_doctors_ban_days(doctor: str, ban_day: list, choice: str):
-    """Записывает числа или дни в которые ставить смены нельзя"""
+    """Записывает числа или дни в которые ставить смены нежелательно"""
     data = open_data_file('wish_ban_days.json')
     data[doctor][choice] = ban_day
 
@@ -149,6 +149,43 @@ def write_doctors_ban_days(doctor: str, ban_day: list, choice: str):
         json.dump(data, file, ensure_ascii=False, indent=4)
 
 
+def write_doctors_wish_days(doctor: str, ban_day: list, choice: str):
+    """Записывает числа или дни в которые ставить смены желательно"""
+    data = open_data_file('wish_days.json')
+    data[doctor][choice] = ban_day
+
+    with open('database/wish_ban_days.json', 'w') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+
+def write_doctors_wishes(doctor: str, ban_day: list, choice: str, file_name: str):
+    """Записывает числа или дни в которые ставить смены нельзя"""
+    data = open_data_file(f'{file_name}.json')
+    data[doctor][choice] = ban_day
+
+    with open(f'database/{file_name}.json', 'w') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+
+
+def get_wishes_data():
+    answer_bans = {}
+    data_bans = open_data_file('wish_ban_days.json')
+    for doctor in data_bans:
+        for days in data_bans[doctor]:
+            if len(data_bans[doctor][days]) > 0:
+                answer_bans[doctor] = data_bans[doctor]
+    answer_wishes = {}
+    data_wishes = open_data_file('wish_days.json')
+    for doctor in data_wishes:
+        for days in data_wishes[doctor]:
+            if len(data_wishes[doctor][days]) > 0:
+                answer_wishes[doctor] = data_wishes[doctor]
+    return answer_bans, answer_wishes
+
+
 def validate_date(dates: str):
     valid = dates.split(', ')
     return valid
+
+
+get_wishes_data()

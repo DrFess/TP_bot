@@ -1,18 +1,12 @@
 from datetime import datetime
 
 from aiogram import Router, F
-from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from utils import get_dates_you_need, add_days_duty_schedule, formatting_duty_schedule, open_data_file, \
     set_restricted_cells
 
 router = Router()
-
-
-class Step(StatesGroup):
-    start = State()
-    change = State()
 
 
 @router.message(F.text == 'Заполнить график')
