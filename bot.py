@@ -9,7 +9,7 @@ from aiogram.types import Message
 from settings import TOKEN, moders, group_id
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
-from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes
+from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID
 
 bot = Bot(token=TOKEN, parse_mode='HTML')
 router = Router()
@@ -63,6 +63,7 @@ async def main():
         add_month_duty.router,
         wish_list.router,
         show_doctors_wishes.router,
+        show_ID.router
     )
     asyncio.create_task(scheduler())
     await bot.delete_webhook(drop_pending_updates=True)

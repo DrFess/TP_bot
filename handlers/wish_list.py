@@ -4,7 +4,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from keyboards import select_day_week_or_day_number
+from keyboards import select_day_week_or_day_number, back_button
 from utils import open_data_file, write_doctors_wishes
 
 router = Router()
@@ -117,14 +117,15 @@ async def making_changes_to_schedule(message: Message, state: FSMContext):
         days = message.text.split(', ')
         if data['choice'] == 'number':
             write_doctors_wishes(doctor=doctor, ban_day=days, choice='numbers', file_name='wish_days')
-            await message.answer(f'Для {doctor} указаны даты {message.text}')
+            await message.answer(f'Для {doctor} указаны даты {message.text}', reply_markup=back_button)
         else:
             write_doctors_wishes(doctor=doctor, ban_day=days, choice='numbers', file_name='wish_days')
-            await message.answer(f'Для {doctor} указаны дни недели {message.text}')
+            await message.answer(f'Для {doctor} указаны дни недели {message.text}', reply_markup=back_button)
     else:
         if data['choice'] == 'number':
             write_doctors_wishes(doctor=doctor, ban_day=[], choice='numbers', file_name='wish_days')
-            await message.answer(f'Для {doctor} список желательных для дежурств дат очищен')
+            await message.answer(f'Для {doctor} список желательных для дежурств дат очищен', reply_markup=back_button)
         else:
             write_doctors_wishes(doctor=doctor, ban_day=[], choice='numbers', file_name='wish_days')
-            await message.answer(f'Для {doctor} список желательных для дежурств дней недели очищен')
+            await message.answer(f'Для {doctor} список желательных для дежурств дней недели очищен', reply_markup=back_button)
+            

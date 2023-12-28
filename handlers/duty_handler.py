@@ -14,7 +14,7 @@ async def edit_duty_schedule(message: Message):
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
     else:
         await message.answer(
-            f'Вы хотите указать в какие дни ставить или не ставить дежурства? {message.from_user.id}',
+            'Вы хотите указать в какие дни ставить или не ставить дежурства?',
             reply_markup=wishes_or_ban
         )
 

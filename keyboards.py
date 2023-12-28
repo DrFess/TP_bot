@@ -4,7 +4,11 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 back_button = [KeyboardButton(text=f'\U0001F519 Назад')]
 
 wishes_or_ban = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text='Ставить смены')], [KeyboardButton(text='Не ставить смены')]],
+    keyboard=[
+        [KeyboardButton(text='Ставить смены')],
+        [KeyboardButton(text='Не ставить смены')],
+        [KeyboardButton(text='Показать мой ID')]
+    ],
     one_time_keyboard=True,
     resize_keyboard=True
 )
