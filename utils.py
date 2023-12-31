@@ -186,6 +186,3 @@ def get_wishes_data():
 def validate_date(dates: str):
     valid = dates.split(', ')
     return valid
-
-
-get_wishes_data()
