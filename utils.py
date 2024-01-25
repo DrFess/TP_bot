@@ -36,10 +36,15 @@ def daily_summary():
     else:
         hospitalization = 'не было'
 
+    patients_in_department = sh.worksheet('Цифры')
+    total_patients = patients_in_department.acell('L2').value
+    patients_in_stock = patients_in_department.acell('B2').value
+
     daily_report = {
         'экстренных госпитализаций': data.col_values(2)[8],
         'всего обратилось': data.col_values(2)[9],
-        'госпитализации': hospitalization
+        'госпитализации': hospitalization,
+        'пациентов в травматологии всего/присутствует': f'{total_patients}/{patients_in_stock}'
     }
     return daily_report
 
