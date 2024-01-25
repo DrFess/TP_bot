@@ -38,14 +38,16 @@ async def send_daily_report():
     data = daily_summary()
     if data['экстренных госпитализаций'] == '0':
         text = f'За {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
-               f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}'
+               f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
+               f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     else:
         hospitalization = ''
         for item in data['госпитализации']:
             hospitalization += f'\n------\nНомер истории: {item[0]}\nДиагноз: {item[1]}\nПримечание: {item[2]}'
         text = f'За {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
-               f'Сведения о госпитализациях: {hospitalization}'
+               f'Сведения о госпитализациях: {hospitalization}\n' \
+               f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
@@ -54,14 +56,16 @@ async def send_daily_report_morning():
     data = daily_summary()
     if data['экстренных госпитализаций'] == '0':
         text = f'За 8 часов {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
-               f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}'
+               f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
+               f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     else:
         hospitalization = ''
         for item in data['госпитализации']:
             hospitalization += f'\n------\nНомер истории: {item[0]}\nДиагноз: {item[1]}\nПримечание: {item[2]}'
         text = f'За 8 часов {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
-               f'Сведения о госпитализациях: {hospitalization}'
+               f'Сведения о госпитализациях: {hospitalization}\n' \
+               f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
