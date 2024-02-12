@@ -43,10 +43,11 @@ async def send_daily_report():
     else:
         hospitalization = ''
         for item in data['госпитализации']:
-            hospitalization += f'\n------\nНомер истории: {item[0]}\nДиагноз: {item[1]}\nПримечание: {item[2]}'
+            hospitalization += f'\n\U0001F6CF\nНомер истории: {item[0]}\nДиагноз: {item[1]}\nПримечание: {item[2]}'
         text = f'За {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
                f'Сведения о госпитализациях: {hospitalization}\n' \
+               f'\U0001F3E5\n' \
                f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
