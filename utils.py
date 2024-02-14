@@ -115,9 +115,9 @@ def clear_duty_schedule():
     """Очищает заданный диапазон таблицы"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
-    worksheet.batch_clear(['B1:AF18'])
+    worksheet.batch_clear(['B1:AG19'])
     worksheet.format(
-        'B1:AF18',
+        'B1:AG19',
         {'backgroundColor':
             {
                 "red": -255.0,
