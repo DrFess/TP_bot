@@ -25,7 +25,7 @@ async def propose_date(message: Message):
                              f'Месяц: 1й\n'
                              f'Год: {current_year + 1}')
     else:
-        month = get_dates_you_need(current_year, current_year + 1)
+        month = get_dates_you_need(current_year, current_month + 1)
         add_days_duty_schedule(month)
         formatting_duty_schedule()
         dates = open_data_file('ban_days.json')

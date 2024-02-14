@@ -66,8 +66,8 @@ def add_days_duty_schedule(month_example):
 
     for day in month_example:
         if day[0] != 0:
-            worksheet.update_cell(1, day[0] + 1, week[day[1]])
-            worksheet.update_cell(2, day[0] + 1, day[0])
+            worksheet.update_cell(1, day[0] + 2, week[day[1]])
+            worksheet.update_cell(2, day[0] + 2, day[0])
             time.sleep(1)
 
 
@@ -85,7 +85,7 @@ def formatting_duty_schedule():
     for item in weekend:
         column_letter = item.address[0:len(item.address) - 1]
         worksheet.format(
-            f'{column_letter}1:{column_letter}18',
+            f'{column_letter}1:{column_letter}20',
             {"backgroundColor":
                 {
                     "red": 300.0,
@@ -115,9 +115,9 @@ def clear_duty_schedule():
     """Очищает заданный диапазон таблицы"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
-    worksheet.batch_clear(['B1:AG19'])
+    worksheet.batch_clear(['C1:AG19'])
     worksheet.format(
-        'B1:AG19',
+        'C1:AG19',
         {'backgroundColor':
             {
                 "red": -255.0,
