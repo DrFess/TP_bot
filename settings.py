@@ -11,3 +11,5 @@ WEEK_DAYS = {
     'Сб': ['Суббота', 'Субботы'],
     'Вс': ['Воскресенье', 'Воскресенья'],
 }
+
+PATH_TO_DB = '/Users/aleksejdegtarev/Databases/TP.db'

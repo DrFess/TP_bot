@@ -52,7 +52,7 @@ def daily_summary():
 def add_days_duty_schedule(month_example):
     """Добавляет числа и дни недели в гугл таблицу графика дежурств (duty schedule)"""
     sh = connect_to_google_sheets()
-    worksheet = sh.get_worksheet(5)
+    worksheet = sh.get_worksheet_by_id(735128125)
 
     week = {
         0: 'Пн',
@@ -74,7 +74,7 @@ def add_days_duty_schedule(month_example):
 def formatting_duty_schedule():
     """Форматирует график дежурств"""
     sh = connect_to_google_sheets()
-    worksheet = sh.get_worksheet(5)
+    worksheet = sh.get_worksheet_by_id(735128125)
 
     worksheet.format('A1:AF2', {"horizontalAlignment": "CENTER"})
     weekend = []
@@ -103,7 +103,7 @@ def set_restricted_cells(doctor: str, day_of_week: str, mark: str):
     о - отпуск
     8, 16, 24 - количество часов"""
     sh = connect_to_google_sheets()
-    worksheet = sh.get_worksheet(5)
+    worksheet = sh.get_worksheet_by_id(735128125)
     find_row = worksheet.find(doctor, in_column=1).row
     restricted_cells = worksheet.findall(day_of_week, 1)
     for cell in restricted_cells:
@@ -114,7 +114,7 @@ def set_restricted_cells(doctor: str, day_of_week: str, mark: str):
 def clear_duty_schedule():
     """Очищает заданный диапазон таблицы"""
     sh = connect_to_google_sheets()
-    worksheet = sh.get_worksheet(5)
+    worksheet = sh.get_worksheet_by_id(735128125)
     worksheet.batch_clear(['B1:AF18'])
     worksheet.format(
         'B1:AF18',
