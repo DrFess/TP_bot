@@ -104,7 +104,7 @@ def set_restricted_cells(doctor: str, day_of_week: str, mark: str):
     8, 16, 24 - количество часов"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
-    find_row = worksheet.find(doctor, in_column=1).row
+    find_row = worksheet.find(doctor, in_column=2).row
     restricted_cells = worksheet.findall(day_of_week, 1)
     for cell in restricted_cells:
         cell_address = cell.col
@@ -115,7 +115,7 @@ def clear_duty_schedule():
     """Очищает заданный диапазон таблицы"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
-    worksheet.batch_clear(['C1:AG19'])
+    worksheet.batch_clear(['C1:AG20'])
     worksheet.format(
         'C1:AG19',
         {'backgroundColor':
