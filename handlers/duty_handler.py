@@ -3,7 +3,7 @@ from aiogram.types import Message, ReplyKeyboardMarkup
 
 from keyboards import wishes_or_ban, moderator_menu, back_button
 from settings import moders
-from utils import clear_duty_schedule
+from utils import clear_duty_schedule, set_restricted_cells
 
 router = Router()
 
@@ -24,3 +24,8 @@ async def clear_schedule(message: Message):
     clear_duty_schedule()
     await message.answer('График очищен',
                          reply_markup=ReplyKeyboardMarkup(keyboard=[back_button], resize_keyboard=True))
+
+
+@router.message(F.text == 'Заполнить график пожеланиями врачей')
+async def edit_duty_schedule_doctors_wishes(message: Message):
+    set_restricted_cells()

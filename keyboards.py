@@ -19,7 +19,7 @@ moderator_menu = ReplyKeyboardMarkup(
         [KeyboardButton(text='Не ставить смены')],
         [KeyboardButton(text='Очистить график')],
         [KeyboardButton(text='Заполнить график')],
-        [KeyboardButton(text='Показать пожелания врачей')],
+        [KeyboardButton(text='Заполнить график пожеланиями врачей')],
         [KeyboardButton(text='Добавить врача в базу данных')],
         [KeyboardButton(text='Добавить telegram_id врача в базу данных')],
     ],
