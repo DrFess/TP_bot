@@ -11,7 +11,7 @@ from aiogram.types import Message
 from settings import TOKEN, moders, group_id
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
-from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID
+from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor
 
 bot = Bot(token=TOKEN, parse_mode='HTML')
 router = Router()
@@ -22,7 +22,7 @@ async def command_start_handler(message: Message):
     await message.answer('Привет, я - бот для детского травмпункта.')
 
 
-@router.message(F.text == '\U0001F519 Назад')
+@router.message(F.text.in_({'\U0001F519 Назад', 'menu'}))
 async def back_step(message: Message):
     if message.from_user.id in moders:
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
@@ -39,6 +39,7 @@ async def send_daily_report():
     if data['экстренных госпитализаций'] == '0':
         text = f'За {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
+               f'\U0001F3E5\n' \
                f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     else:
         hospitalization = ''
@@ -58,6 +59,7 @@ async def send_daily_report_morning():
     if data['экстренных госпитализаций'] == '0':
         text = f'За 8 часов {datetime.date.today().strftime("%d.%m.%Y")} всего обратилось: {data["всего обратилось"]}\n' \
                f'Экстренных госпитализаций: {data["экстренных госпитализаций"]}\n' \
+               f'\U0001F3E5\n' \
                f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     else:
         hospitalization = ''
@@ -87,7 +89,8 @@ async def main():
         add_month_duty.router,
         wish_list.router,
         show_doctors_wishes.router,
-        show_ID.router
+        show_ID.router,
+        add_doctor.router
     )
     asyncio.create_task(scheduler())
     await bot.delete_webhook(drop_pending_updates=True)

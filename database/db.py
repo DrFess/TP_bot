@@ -85,6 +85,22 @@ def add_doctor(cursor, telegram_id: int, surname: str, name: str, patronymic: st
 
 
 @connection_to_DB
+def edit_doctor_info(cursor, telegram_id, doc_id):
+    """Обновление telegram_id врача по id"""
+    params = (telegram_id, doc_id)
+    query = """UPDATE doctor SET telegram_id = ? WHERE id = ?"""
+    cursor.execute(query, params)
+
+
+@connection_to_DB
+def delete_doctor_info(cursor, doc_id):
+    """Удаляет запись о враче по id"""
+    params = (doc_id,)
+    query = """DELETE FROM doctor WHERE id =?"""
+    cursor.execute(query, params)
+
+
+@connection_to_DB
 def show_all_doctors(cursor):
     """Возвращает словарь с данными о всех врачах"""
     query = """SELECT * FROM doctor"""
@@ -209,3 +225,4 @@ def drop_table(cursor, table: str):
 # add_wish_date(3, '22.02.2024', True)
 # print(show_all_wish_dates())
 # drop_table(table='')
+# delete_doctor_info(5)

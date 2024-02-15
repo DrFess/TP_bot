@@ -85,7 +85,7 @@ def formatting_duty_schedule():
     for item in weekend:
         column_letter = item.address[0:len(item.address) - 1]
         worksheet.format(
-            f'{column_letter}1:{column_letter}20',
+            f'{column_letter}1:{column_letter}21',
             {"backgroundColor":
                 {
                     "red": 300.0,
@@ -115,9 +115,9 @@ def clear_duty_schedule():
     """Очищает заданный диапазон таблицы"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
-    worksheet.batch_clear(['C1:AG20'])
+    worksheet.batch_clear(['C1:AG21'])
     worksheet.format(
-        'C1:AG20',
+        'C1:AG21',
         {'backgroundColor':
             {
                 "red": -255.0,
