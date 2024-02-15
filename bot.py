@@ -8,8 +8,8 @@ from aiogram import Bot, Dispatcher, Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from database.db import create_tables
-from settings import TOKEN, moders, group_id
+from database.db import create_tables, add_weekday
+from settings import TOKEN, moders, group_id, WEEK_DAYS
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor
@@ -27,6 +27,13 @@ async def command_start_handler(message: Message):
 async def create_db(message: Message):
     create_tables()
     await message.answer('Таблицы созданы')
+
+
+@router.message(Command(commands=['weekday']))
+async def add_weekdays(message: Message):
+    for day in WEEK_DAYS:
+        add_weekday(day, WEEK_DAYS.get(day))
+    await message.answer('Дни недели добавлены')
 
 
 @router.message(F.text.in_({'\U0001F519 Назад', 'menu'}))
