@@ -4,16 +4,18 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from database.db import show_all_doctors, add_wish_date
 from keyboards import select_day_week_or_day_number, back_button
-from utils import open_data_file, write_doctors_wishes
+from settings import moders
+from utils import open_data_file, write_doctors_wishes, create_date
 
 router = Router()
 
 
 class StepBans(StatesGroup):
-    first = State()
-    second = State()
-    third = State()
+    moder_first = State()
+    moder_second = State()
+    moder_third = State()
 
 
 class StepWishes(StatesGroup):
@@ -24,35 +26,32 @@ class StepWishes(StatesGroup):
 
 @router.message(F.text == 'Не ставить смены')
 async def get_doctor_surname(message: Message, state: FSMContext):
-    await state.set_state(StepBans.first)
-    doctors = open_data_file('doctors_list.json')
-    builder = InlineKeyboardBuilder()
-    for doctor in doctors.keys():
-        builder.add(InlineKeyboardButton(text=f'{doctors[doctor]}', callback_data=f'{doctors[doctor]}'))
-    builder.adjust(1)
-    await message.answer('Для кого из врачей указать НЕжелательные дни дежурств', reply_markup=builder.as_markup())
+    if message.from_user.id in moders:
+        await state.set_state(StepBans.moder_first)
+        doctors = show_all_doctors()
+        builder = InlineKeyboardBuilder()
+        for doc in doctors:
+            builder.row(
+                InlineKeyboardButton(text=f"{doctors.get(doc)['фамилия']} {doctors.get(doc)['имя']}", callback_data=f'{doc}'))
+        builder.adjust(1)
+        await message.answer('Для кого из врачей указать НЕжелательные даты дежурств', reply_markup=builder.as_markup())
 
 
-@router.callback_query(StepBans.first)
-async def select_day_by_number_or_day_week(callback: CallbackQuery, state: FSMContext):
+@router.callback_query(StepBans.moder_first)
+async def send_number_days(callback: CallbackQuery, state: FSMContext):
     await state.update_data(doctor=callback.data)
-    await state.set_state(StepBans.second)
-    await callback.message.answer(
-        'Вы собираетесь указать конкретные числа или дни недели в которые НЕ нужно ставить смены?',
-        reply_markup=select_day_week_or_day_number
-    )
+    await state.set_state(StepBans.moder_second)
+    await callback.message.answer('Отправьте, через запятую, числа в которые не нужно ставить дежурства '
+                                  'без указания месяца. Например: 1, 2, 3, 4, 5 и т.п.')
 
 
-@router.callback_query(StepBans.second)
-async def indicate_days(callback: CallbackQuery, state: FSMContext):
-    await state.update_data(choice=callback.data)
-    if callback.data == 'day_week':
-        await callback.message.answer('Укажите через запятую в какие дни недели НЕ ставить дежурства. '
-                                      'Если требуется очистить список дней, отправьте точку "."')
-    else:
-        await callback.message.answer('Укажите через запятую в какие числа месяца НЕ ставить дежурства. '
-                                      'Если требуется очистить список дней, отправьте точку "."')
-    await state.set_state(StepBans.third)
+@router.message(StepBans.moder_second)
+async def write_ban_days(message: Message, state: FSMContext):
+    data = await state.get_data()
+    for item in message.text.split(', '):
+        date = create_date(item)
+        add_wish_date(data['doctor'], date, False)
+    await message.answer('Даты добавлены в НЕжелательные')
 
 
 @router.message(StepBans.third)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from itertools import zip_longest
 import time
 import calendar
@@ -191,3 +192,9 @@ def get_wishes_data():
 def validate_date(dates: str):
     valid = dates.split(', ')
     return valid
+
+
+def create_date(day: str):
+    current_date = datetime.now()
+    date_with_next_month = datetime(current_date.year, current_date.month + 1, int(day))
+    return date_with_next_month.strftime('%d.%m.%Y')
