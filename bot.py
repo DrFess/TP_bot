@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher, Router, F
 from aiogram.filters import Command
 from aiogram.types import Message
 
+from database.db import create_tables
 from settings import TOKEN, moders, group_id
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
@@ -20,6 +21,12 @@ router = Router()
 @router.message(Command(commands=['start']))
 async def command_start_handler(message: Message):
     await message.answer('Привет, я - бот для детского травмпункта.')
+
+
+@router.message(Command(commands=['create_db']))
+async def create_db(message: Message):
+    create_tables()
+    await message.answer('Таблицы созданы')
 
 
 @router.message(F.text.in_({'\U0001F519 Назад', 'menu'}))

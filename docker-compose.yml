@@ -4,3 +4,5 @@ services:
     build: .
     command: sh -c "python -m bot"
     restart: always
+    volumes:
+      - /root/bots/TP_bot/TP_bot/database:/root/databases/
