@@ -117,6 +117,14 @@ def show_all_doctors(cursor):
 
 
 @connection_to_DB
+def show_all_doctors_id(cursor):
+    """Возвращает список telegram_id всех врачей"""
+    query = """SELECT telegram_id FROM doctor"""
+    data = cursor.execute(query).fetchall()
+    return [item[0] for item in data]
+
+
+@connection_to_DB
 def add_weekday(cursor, day: str, alt_title: str):
     """Добавление дня недели"""
     params = (day, alt_title)
@@ -226,3 +234,4 @@ def drop_table(cursor, table: str):
 # print(show_all_wish_dates())
 # drop_table(table='')
 # delete_doctor_info(5)
+# print(show_all_doctors_id())

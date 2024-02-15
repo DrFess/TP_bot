@@ -4,7 +4,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from database.db import show_all_doctors, add_wish_date
+from database.db import show_all_doctors, add_wish_date, show_all_doctors_id
 from keyboards import select_day_week_or_day_number, back_button
 from settings import moders
 from utils import open_data_file, write_doctors_wishes, create_date
@@ -13,9 +13,9 @@ router = Router()
 
 
 class StepBans(StatesGroup):
-    moder_first = State()
-    moder_second = State()
-    moder_third = State()
+    first = State()
+    second = State()
+    third = State()
 
 
 class StepWishes(StatesGroup):
@@ -27,7 +27,7 @@ class StepWishes(StatesGroup):
 @router.message(F.text == 'Не ставить смены')
 async def get_doctor_surname(message: Message, state: FSMContext):
     if message.from_user.id in moders:
-        await state.set_state(StepBans.moder_first)
+        await state.set_state(StepBans.first)
         doctors = show_all_doctors()
         builder = InlineKeyboardBuilder()
         for doc in doctors:
@@ -35,17 +35,24 @@ async def get_doctor_surname(message: Message, state: FSMContext):
                 InlineKeyboardButton(text=f"{doctors.get(doc)['фамилия']} {doctors.get(doc)['имя']}", callback_data=f'{doc}'))
         builder.adjust(1)
         await message.answer('Для кого из врачей указать НЕжелательные даты дежурств', reply_markup=builder.as_markup())
+    elif message.from_user.id in show_all_doctors_id():
+        await state.update_data(doctor=message.from_user.id)
+        await state.set_state(StepBans.second)
+        await message.answer('Отправьте, через запятую, числа в которые не нужно ставить дежурства без указания месяца.'
+                             ' Например: 1, 2, 3, 4, 5 и т.п.')
+    else:
+        await message.answer('Вы не зарегистрированы в базе данных')
 
 
-@router.callback_query(StepBans.moder_first)
+@router.callback_query(StepBans.first)
 async def send_number_days(callback: CallbackQuery, state: FSMContext):
     await state.update_data(doctor=callback.data)
-    await state.set_state(StepBans.moder_second)
+    await state.set_state(StepBans.second)
     await callback.message.answer('Отправьте, через запятую, числа в которые не нужно ставить дежурства '
                                   'без указания месяца. Например: 1, 2, 3, 4, 5 и т.п.')
 
 
-@router.message(StepBans.moder_second)
+@router.message(StepBans.second)
 async def write_ban_days(message: Message, state: FSMContext):
     data = await state.get_data()
     for item in message.text.split(', '):
@@ -53,6 +60,8 @@ async def write_ban_days(message: Message, state: FSMContext):
         add_wish_date(data['doctor'], date, False)
     await message.answer('Даты добавлены в НЕжелательные')
     await state.clear()
+
+
 
 #
 # @router.message(StepBans.third)
