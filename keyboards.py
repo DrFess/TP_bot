@@ -39,5 +39,6 @@ yes_or_no = ReplyKeyboardMarkup(
         [KeyboardButton(text='Да')],
         [KeyboardButton(text='Нет')],
     ],
-    resize_keyboard=True
+    resize_keyboard=True,
+    one_time_keyboard=True,
 )
