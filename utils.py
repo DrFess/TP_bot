@@ -230,6 +230,3 @@ def get_patients_info():
             doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
 
     return doctors_patients
-
-
-print(get_patients_info())

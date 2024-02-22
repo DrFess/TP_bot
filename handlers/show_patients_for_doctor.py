@@ -9,18 +9,21 @@ router = Router()
 
 @router.message(F.text == 'Покажи моих пациентов')
 async def show_patients(message: Message):
-    all_data = get_patients_info()
-    doctor = show_doctor_surname(message.from_user.id)
-    data_for_doctor = all_data.get(doctor)
-    ward = 0
-    text = ''
-    for item in data_for_doctor:
-        patient = item.split(' ')
-        if ward != patient[0]:
-            ward = patient[0]
-            text += ward + '\n'
-        patient_surname = patient[1]
-        text += patient_surname + '\n'
-        history_number = patient[2]
-        text += history_number + '\n'
-    await message.answer(text)
+    try:
+        all_data = get_patients_info()
+        doctor = show_doctor_surname(message.from_user.id)
+        data_for_doctor = all_data.get(doctor)
+        ward = 0
+        text = ''
+        for item in data_for_doctor:
+            patient = item.split(' ')
+            if ward != patient[0]:
+                ward = patient[0]
+                text += ward + '\n'
+            patient_surname = patient[1]
+            text += patient_surname + '\n'
+            history_number = patient[2]
+            text += history_number + '\n'
+        await message.answer(text)
+    except Exception as e:
+        await message.answer('Проверьте правильность заполнения полей таблицы')
