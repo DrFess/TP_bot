@@ -216,22 +216,3 @@ def drop_table(cursor, table: str):
     """Удаляет указанную таблицу"""
     query = f"""DROP TABLE IF EXISTS {table}"""
     cursor.execute(query)
-
-
-# create_tables()
-# add_doctor(618071339, 'Преториус', 'Татьяна', 'Львовна')
-# add_doctor(telegram_id=None, surname='Забинов', name='Виктор', patronymic='Константинович')
-# print(show_all_doctors())
-# print(show_all_weekdays())
-# add_const_forbidden_weekday(1, 6)
-# print(show_all_forbidden_weekdays())
-# print(show_forbidden_weekdays_of_doctor(1))
-# print(show_weekday_of_id(7))
-# add_wish_date(1, '14.02.2024', True)
-# add_wish_date(2, '17.02.2024', False)
-# add_wish_date(1, '18.02.2024', False)
-# add_wish_date(3, '22.02.2024', True)
-# print(show_all_wish_dates())
-# drop_table(table='')
-# delete_doctor_info(5)
-# print(show_all_doctors_id())

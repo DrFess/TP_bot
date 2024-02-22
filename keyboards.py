@@ -1,7 +1,10 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 
-back_button = [KeyboardButton(text=f'\U0001F519 Назад')]
+back_button = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text=f'\U0001F519 Назад')]],
+    resize_keyboard=True
+)
 
 wishes_or_ban = ReplyKeyboardMarkup(
     keyboard=[
