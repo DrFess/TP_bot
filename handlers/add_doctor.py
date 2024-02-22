@@ -76,7 +76,7 @@ async def show_all_doctors_message(message: Message, state: FSMContext):
     await state.set_state(EditProfiles.first)
 
 
-@router.callback_query(EditProfiles.first, F.data.in_({str(x) for x in range(1, 19)}))
+@router.callback_query(EditProfiles.first, F.data.in_({str(x) for x in range(1, 20)}))
 async def edit_doctor_profile(callback: CallbackQuery, state: FSMContext):
     await state.update_data(doc_id=callback.data)
     await callback.message.answer('Введите telegram_id')

@@ -198,3 +198,33 @@ def create_date(day: str):
     current_date = datetime.now()
     date_with_next_month = datetime(current_date.year, current_date.month + 1, int(day))
     return date_with_next_month.strftime('%d.%m.%Y')
+
+
+def get_all_patients_in_ward(interval):
+    sh = connect_to_google_sheets()
+    worksheet = sh.get_worksheet_by_id(0)
+
+    result = []
+    for item in worksheet.get(interval):
+        if len(item) > 0:
+            result.append([item[0], item[1].split(' ')[0], item[2]])
+    return result
+
+
+def get_patients_info():
+    wards = ('A3:F8', 'A9:F14', 'A15:F21', 'A22:F27', 'A28:F33', 'A34:F39', 'A40:F41', 'A42:F43')
+    doctors_patients = {
+        'Большаков': [],
+        'Дегтярев': [],
+        'Зеленин': [],
+        'Остапенко': [],
+        'Казанцев': [],
+    }
+    count = 0
+    for ward in wards:
+        count += 1
+        data = get_all_patients_in_ward(ward)
+        for item in data:
+            doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
+
+    return doctors_patients
