@@ -125,6 +125,15 @@ def show_all_doctors_id(cursor):
 
 
 @connection_to_DB
+def show_doctor_surname(cursor, telegram_id: str):
+    """Возвращает telegram_id врача по фамилии"""
+    query = """SELECT surname FROM doctor WHERE telegram_id = ?"""
+    params = (telegram_id,)
+    data = cursor.execute(query, params).fetchone()
+    return data[0]
+
+
+@connection_to_DB
 def add_weekday(cursor, day: str, alt_title: str):
     """Добавление дня недели"""
     params = (day, alt_title)

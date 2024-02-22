@@ -201,6 +201,7 @@ def create_date(day: str):
 
 
 def get_all_patients_in_ward(interval):
+    """Получает данные из таблицы по указанному диапазону"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(0)
 
@@ -212,6 +213,7 @@ def get_all_patients_in_ward(interval):
 
 
 def get_patients_info():
+    """Формирует словарь, ключ - фамилия врача, значение - данные о пациенте"""
     wards = ('A3:F8', 'A9:F14', 'A15:F21', 'A22:F27', 'A28:F33', 'A34:F39', 'A40:F41', 'A42:F43')
     doctors_patients = {
         'Большаков': [],
@@ -228,3 +230,6 @@ def get_patients_info():
             doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
 
     return doctors_patients
+
+
+print(get_patients_info())

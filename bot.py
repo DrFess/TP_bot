@@ -12,7 +12,8 @@ from database.db import create_tables, add_weekday
 from settings import TOKEN, moders, group_id, WEEK_DAYS
 from keyboards import wishes_or_ban, moderator_menu
 from utils import daily_summary
-from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor
+from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
+    show_patients_for_doctor
 
 bot = Bot(token=TOKEN, parse_mode='HTML')
 router = Router()
@@ -104,7 +105,8 @@ async def main():
         wish_list.router,
         show_doctors_wishes.router,
         show_ID.router,
-        add_doctor.router
+        add_doctor.router,
+        show_patients_for_doctor.router,
     )
     asyncio.create_task(scheduler())
     await bot.delete_webhook(drop_pending_updates=True)
