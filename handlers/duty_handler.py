@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, ReplyKeyboardMarkup
 
-from keyboards import wishes_or_ban, moderator_menu, back_button
+from keyboards import wishes_or_ban_TP, moderator_menu, back_button
 from settings import moders
 from utils import clear_duty_schedule, set_restricted_cells
 
@@ -15,7 +15,7 @@ async def edit_duty_schedule(message: Message):
     else:
         await message.answer(
             'Вы хотите указать в какие дни ставить или не ставить дежурства?',
-            reply_markup=wishes_or_ban
+            reply_markup=wishes_or_ban_TP
         )
 
 
