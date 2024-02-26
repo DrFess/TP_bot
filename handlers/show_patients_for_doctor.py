@@ -20,11 +20,11 @@ async def show_patients(message: Message):
             patient = item.split(' ')
             if ward != patient[0]:
                 ward = patient[0]
-                text += ward + '\n'
+                text += ward + '\n' + '----------\n'
             patient_surname = patient[1]
             text += patient_surname + '\n'
             history_number = patient[2]
-            text += history_number + '\n' + '----------\n'
+            text += history_number + '\n\n'
         await message.answer(text, reply_markup=back_button)
     except Exception as e:
         await message.answer('Проверьте правильность заполнения полей таблицы')
