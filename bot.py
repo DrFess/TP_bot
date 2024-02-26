@@ -9,8 +9,8 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from database.db import create_tables, add_weekday
-from settings import TOKEN, moders, group_id, WEEK_DAYS
-from keyboards import wishes_or_ban, moderator_menu
+from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors
+from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department
 from utils import daily_summary
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
     show_patients_for_doctor
@@ -41,10 +41,12 @@ async def add_weekdays(message: Message):
 async def back_step(message: Message):
     if message.from_user.id in moders:
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)
+    elif message.from_user.id in department_doctors:
+        await message.answer('Основное меню', reply_markup=wishes_or_ban_department)
     else:
         await message.answer(
             f'Вы хотите указать в какие дни ставить или не ставить дежурства? {message.from_user.id}',
-            reply_markup=wishes_or_ban
+            reply_markup=wishes_or_ban_TP
         )
 
 
