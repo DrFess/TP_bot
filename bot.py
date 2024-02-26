@@ -37,7 +37,7 @@ async def add_weekdays(message: Message):
     await message.answer('Дни недели добавлены')
 
 
-@router.message(F.text.in_({'\U0001F519 Назад', 'menu'}))
+@router.message(F.text.in_({'\U0001F519 Назад', 'Меню'}))
 async def back_step(message: Message):
     if message.from_user.id in moders:
         await message.answer('Вам доступно расширенное редактирование графика', reply_markup=moderator_menu)

@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message
 
 from database.db import show_doctor_surname
+from keyboards import back_button
 from utils import get_patients_info
 
 router = Router()
@@ -23,7 +24,7 @@ async def show_patients(message: Message):
             patient_surname = patient[1]
             text += patient_surname + '\n'
             history_number = patient[2]
-            text += history_number + '\n'
-        await message.answer(text)
+            text += history_number + '\n' + '----------\n'
+        await message.answer(text, reply_markup=back_button)
     except Exception as e:
         await message.answer('Проверьте правильность заполнения полей таблицы')
