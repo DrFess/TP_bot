@@ -6,6 +6,8 @@ import json
 
 import gspread
 
+from database.db import show_all_doctors
+
 
 def get_dates_you_need(year: int, month: int) -> list:
     """Получает календарь на необходимый месяц в виде списка кортежей.
@@ -230,3 +232,8 @@ def get_patients_info():
             doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
 
     return doctors_patients
+
+
+def length_doctors_list():
+    doctors = show_all_doctors()
+    return len(doctors)

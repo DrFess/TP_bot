@@ -6,6 +6,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from database.db import add_doctor, show_all_doctors, edit_doctor_info
 from keyboards import yes_or_no, back_button
+from utils import length_doctors_list
 
 router = Router()
 
@@ -76,7 +77,7 @@ async def show_all_doctors_message(message: Message, state: FSMContext):
     await state.set_state(EditProfiles.first)
 
 
-@router.callback_query(EditProfiles.first, F.data.in_({str(x) for x in range(1, 20)}))
+@router.callback_query(EditProfiles.first, F.data.in_({str(x) for x in range(1, length_doctors_list() + 1)}))
 async def edit_doctor_profile(callback: CallbackQuery, state: FSMContext):
     await state.update_data(doc_id=callback.data)
     await callback.message.answer('Введите telegram_id')
