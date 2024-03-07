@@ -229,7 +229,8 @@ def get_patients_info():
         count += 1
         data = get_all_patients_in_ward(ward)
         for item in data:
-            doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
+            if len(item[0]) > 0:
+                doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
 
     return doctors_patients
 

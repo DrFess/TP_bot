@@ -27,4 +27,4 @@ async def show_patients(message: Message):
             text += history_number + '\n\n'
         await message.answer(text, reply_markup=back_button)
     except Exception as e:
-        await message.answer('Проверьте правильность заполнения полей таблицы')
+        await message.answer('Проверьте вем ли назначен лечащий врач')
