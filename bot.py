@@ -94,7 +94,7 @@ async def send_daily_report_morning():
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
-    aioschedule.every().day.at('03:30').do(show_patients_schedule(bot))
+    aioschedule.every().day.at('03:40').do(show_patients_schedule(bot))
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
