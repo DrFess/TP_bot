@@ -90,18 +90,18 @@ async def send_daily_report_morning():
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
-async def show_patients_schedule():
-    all_patients = get_patients_info()
-    for doctor in all_patients.keys():
-        telegram_id = get_doctor_telegram_id_by_surname(doctor)
-        text = create_text_report(telegram_id)
-        await bot.send_message(chat_id=telegram_id, text=text, disable_notification=True)
+# async def show_patients_schedule():
+#     all_patients = get_patients_info()
+#     for doctor in all_patients.keys():
+#         telegram_id = get_doctor_telegram_id_by_surname(doctor)
+#         text = create_text_report(telegram_id)
+#         await bot.send_message(chat_id=telegram_id, text=text, disable_notification=True)
 
 
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
-    aioschedule.every().day.at('04:30').do(show_patients_schedule)
+    # aioschedule.every().day.at('04:30').do(show_patients_schedule)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
