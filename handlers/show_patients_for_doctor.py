@@ -15,8 +15,3 @@ async def show_patients(message: Message):
         await message.answer(text, reply_markup=back_button)
     except Exception as e:
         await message.answer('Проверьте всем ли назначен лечащий врач')
-
-
-@router.message(F.from_user.id == 7163899081)
-async def test_message(message: Message):
-    await bot.send_message(chat_id=233759537, text=message, disable_notification=True)
