@@ -241,9 +241,9 @@ def length_doctors_list():
     return len(doctors)
 
 
-def create_text_report(message: Message):
+def create_text_report(message_from_user_id: int) -> str:
     all_data = get_patients_info()
-    doctor = show_doctor_surname(message.from_user.id)
+    doctor = show_doctor_surname(message_from_user_id)
     data_for_doctor = all_data.get(doctor)
     ward = 0
     text = ''

@@ -117,6 +117,15 @@ def show_all_doctors(cursor):
 
 
 @connection_to_DB
+def get_doctor_telegram_id_by_surname(cursor, surname: str):
+    """Возвращает id врача по фамилии"""
+    params = (surname,)
+    query = """SELECT telegram_id FROM doctor WHERE surname = ?"""
+    data = cursor.execute(query, params).fetchone()
+    return data[0]
+
+
+@connection_to_DB
 def show_all_doctors_id(cursor):
     """Возвращает список telegram_id всех врачей"""
     query = """SELECT telegram_id FROM doctor"""

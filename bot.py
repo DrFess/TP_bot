@@ -9,6 +9,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from database.db import create_tables, add_weekday
+from handlers.show_patients_for_doctor import show_patients_schedule
 from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors
 from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department
 from utils import daily_summary
@@ -93,6 +94,7 @@ async def send_daily_report_morning():
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
+    aioschedule.every().day.at('03:30').do(show_patients_schedule)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
