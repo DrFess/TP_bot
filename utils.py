@@ -211,7 +211,6 @@ def get_all_patients_in_ward(interval):
     for item in worksheet.get(interval):
         if len(item) > 0:
             result.append([item[0], item[1].split(' ')[0], item[2]])
-            time.sleep(3)
     return result
 
 
