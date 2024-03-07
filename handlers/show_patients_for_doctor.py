@@ -1,9 +1,9 @@
-from aiogram import Router, F
+from aiogram import Router, F, Bot
 from aiogram.types import Message
 
 from database.db import show_doctor_surname
 from keyboards import back_button
-from utils import get_patients_info
+from utils import get_patients_info, create_text_report
 
 router = Router()
 
@@ -11,20 +11,12 @@ router = Router()
 @router.message(F.text == 'Покажи моих пациентов')
 async def show_patients(message: Message):
     try:
-        all_data = get_patients_info()
-        doctor = show_doctor_surname(message.from_user.id)
-        data_for_doctor = all_data.get(doctor)
-        ward = 0
-        text = ''
-        for item in data_for_doctor:
-            patient = item.split(' ')
-            if ward != patient[0]:
-                ward = patient[0]
-                text += ward + '\n' + '----------\n'
-            patient_surname = patient[1]
-            text += patient_surname + '\n'
-            history_number = patient[2]
-            text += history_number + '\n\n'
+        text = create_text_report(message)
         await message.answer(text, reply_markup=back_button)
     except Exception as e:
-        await message.answer('Проверьте вем ли назначен лечащий врач')
+        await message.answer('Проверьте всем ли назначен лечащий врач')
+
+
+async def show_patients_schedule(bot: Bot):
+    pass
+    # await bot.send_message(chat_id=, text=, disable_notification=True)

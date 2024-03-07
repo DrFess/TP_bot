@@ -5,8 +5,9 @@ import calendar
 import json
 
 import gspread
+from aiogram.types import Message
 
-from database.db import show_all_doctors
+from database.db import show_all_doctors, show_doctor_surname
 
 
 def get_dates_you_need(year: int, month: int) -> list:
@@ -238,3 +239,21 @@ def get_patients_info():
 def length_doctors_list():
     doctors = show_all_doctors()
     return len(doctors)
+
+
+def create_text_report(message: Message):
+    all_data = get_patients_info()
+    doctor = show_doctor_surname(message.from_user.id)
+    data_for_doctor = all_data.get(doctor)
+    ward = 0
+    text = ''
+    for item in data_for_doctor:
+        patient = item.split(' ')
+        if ward != patient[0]:
+            ward = patient[0]
+            text += ward + '\n' + '----------\n'
+        patient_surname = patient[1]
+        text += patient_surname + '\n'
+        history_number = patient[2]
+        text += history_number + '\n\n'
+    return text
