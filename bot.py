@@ -9,7 +9,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from database.db import create_tables, add_weekday, get_doctor_telegram_id_by_surname
-from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors
+from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors, shevcov_id
 from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department
 from utils import daily_summary, get_patients_info, create_text_report
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
@@ -68,6 +68,7 @@ async def send_daily_report():
                f'\U0001F3E5\n' \
                f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
+    await bot.send_message(chat_id=shevcov_id, text=text, disable_notification=True)
 
 
 @router.message(F.text == 'Отчет')
