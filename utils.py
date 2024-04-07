@@ -286,6 +286,3 @@ def create_text_report(message_from_user_id: int) -> str:
         history_number = patient[2]
         text += history_number + '\n\n'
     return text
-
-
-formatting_duty_schedule()
