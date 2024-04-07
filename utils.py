@@ -5,6 +5,8 @@ import calendar
 import json
 
 import gspread
+import requests
+from bs4 import BeautifulSoup
 
 from database.db import show_all_doctors, show_doctor_surname
 
@@ -74,21 +76,49 @@ def add_days_duty_schedule(month_example):
             time.sleep(1)
 
 
+def get_weekend_and_holidays(year) -> dict:
+    """Парсит с сайта Консультант (производственный календарь) выходные и праздничные числа по месяцам"""
+    data = requests.get(f'https://www.consultant.ru/law/ref/calendar/proizvodstvennye/{year}/').text
+
+    soup = BeautifulSoup(data, 'html.parser')
+
+    days = soup.findAll('table', class_='cal')
+    month = 0
+    weekends_and_holidays = {}
+    for day in days:
+        month += 1
+        item = day.find_all('td', class_='weekend')
+        list_days = []
+        for i in item:
+            list_days.append(i.text)
+        weekends_and_holidays[month] = list_days
+
+    return weekends_and_holidays
+
+
 def formatting_duty_schedule():
     """Форматирует график дежурств"""
     sh = connect_to_google_sheets()
     worksheet = sh.get_worksheet_by_id(735128125)
 
     worksheet.format('A1:AF2', {"horizontalAlignment": "CENTER"})
-    weekend = []
-    saturday = worksheet.findall('Сб', 1)
-    sunday = worksheet.findall('Вс', 1)
-    weekend.extend(saturday)
-    weekend.extend(sunday)
-    for item in weekend:
+    month = datetime.now().month
+    if month == 12:
+        year = datetime.now().year
+        year += 1
+        month = 0
+    else:
+        year = datetime.now().year
+
+    weekend_and_holidays = get_weekend_and_holidays(year)
+
+    gray_columns = []
+    for day in weekend_and_holidays.get(month + 1):
+        gray_columns.append(worksheet.find(query=day, in_row=2))
+    for item in gray_columns:
         column_letter = item.address[0:len(item.address) - 1]
         worksheet.format(
-            f'{column_letter}1:{column_letter}21',
+            f'{column_letter}1:{column_letter}40',
             {"backgroundColor":
                 {
                     "red": 300.0,
@@ -256,3 +286,6 @@ def create_text_report(message_from_user_id: int) -> str:
         history_number = patient[2]
         text += history_number + '\n\n'
     return text
+
+
+formatting_duty_schedule()
