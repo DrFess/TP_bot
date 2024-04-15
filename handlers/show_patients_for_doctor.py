@@ -14,4 +14,4 @@ async def show_patients(message: Message):
         text = create_text_report(message.from_user.id)
         await message.answer(text, reply_markup=back_button)
     except Exception as e:
-        await message.answer('Проверьте всем ли назначен лечащий врач')
+        await message.answer(f'{e}')
