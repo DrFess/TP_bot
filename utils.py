@@ -150,7 +150,7 @@ def clear_duty_schedule():
     worksheet = sh.get_worksheet_by_id(735128125)
     worksheet.batch_clear(['C1:AG24'])
     worksheet.format(
-        'C1:AG21',
+        'C1:AG24',
         {'backgroundColor':
             {
                 "red": -255.0,
