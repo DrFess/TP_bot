@@ -34,7 +34,6 @@ def daily_summary():
     """Формирует данные для отчета за сутки в телеграм боте"""
     sh = connect_to_google_sheets()
     data = sh.worksheet('Отчёт за сутки')
-
     if len(data.col_values(5)) > 2:
         hospitalization = list(
             zip_longest(data.col_values(7), data.col_values(6), data.col_values(8), fillvalue='нет данных'))[2::]
@@ -253,6 +252,7 @@ def get_patients_info():
         'Зеленин': [],
         'Остапенко': [],
         'Казанцев': [],
+        'Яковлев': [],
     }
     count = 0
     for ward in wards:
