@@ -89,6 +89,7 @@ async def send_daily_report_morning():
                f'\U0001F3E5\n' \
                f'Пациентов в травматологии всего/присутствует: {data["пациентов в травматологии всего/присутствует"]}'
     await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
+    await bot.send_message(chat_id=shevcov_id, text=text, disable_notification=True)
 
 
 async def scheduler():
