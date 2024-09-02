@@ -234,7 +234,7 @@ def create_date(day: str):
 def get_all_patients_in_ward(interval):
     """Получает данные из таблицы по указанному диапазону"""
     sh = connect_to_google_sheets()
-    worksheet = sh.get_worksheet_by_id(0)
+    worksheet = sh.get_worksheet_by_id(2071709469)
 
     result = []
     for item in worksheet.get(interval):
