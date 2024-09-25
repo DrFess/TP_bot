@@ -10,7 +10,7 @@ from aiogram.types import Message
 
 from database.db import create_tables, add_weekday, get_doctor_telegram_id_by_surname
 from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors, shevcov_id
-from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department
+from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department, back_button
 from utils import daily_summary, get_patients_info, create_text_report
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
     show_patients_for_doctor
@@ -92,9 +92,25 @@ async def send_daily_report_morning():
     await bot.send_message(chat_id=shevcov_id, text=text, disable_notification=True)
 
 
+@router.message()
+async def send_info_about_patients():
+    for doctor_id in department_doctors:
+        data = create_text_report(doctor_id)
+        try:
+            await bot.send_message(chat_id=str(doctor_id), text=data, reply_markup=back_button)
+        except Exception:
+            pass
+
+
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
+    aioschedule.every().monday.at('01:00').do(send_info_about_patients)
+    aioschedule.every().thursday.at('01:00').do(send_info_about_patients)
+    aioschedule.every().wednesday.at('01:00').do(send_info_about_patients)
+    aioschedule.every().tuesday.at('01:00').do(send_info_about_patients)
+    aioschedule.every().friday.at('01:00').do(send_info_about_patients)
+
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
