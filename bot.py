@@ -105,11 +105,11 @@ async def send_info_about_patients():
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
-    aioschedule.every().monday.at('01:00').do(send_info_about_patients)
-    aioschedule.every().thursday.at('01:00').do(send_info_about_patients)
-    aioschedule.every().wednesday.at('01:00').do(send_info_about_patients)
-    aioschedule.every().tuesday.at('01:00').do(send_info_about_patients)
-    aioschedule.every().friday.at('01:00').do(send_info_about_patients)
+    # aioschedule.every().monday.at('01:00').do(send_info_about_patients)
+    # aioschedule.every().thursday.at('01:00').do(send_info_about_patients)
+    # aioschedule.every().wednesday.at('01:00').do(send_info_about_patients)
+    # aioschedule.every().tuesday.at('01:00').do(send_info_about_patients)
+    # aioschedule.every().friday.at('01:00').do(send_info_about_patients)
 
     while True:
         await aioschedule.run_pending()
