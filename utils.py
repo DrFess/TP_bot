@@ -9,6 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from database.db import show_all_doctors, show_doctor_surname
+from settings import XLSX_TOKEN
 
 
 def get_dates_you_need(year: int, month: int) -> list:
@@ -26,7 +27,7 @@ def get_dates_you_need(year: int, month: int) -> list:
 def connect_to_google_sheets():
     """Подключение в гугл таблице"""
     gs = gspread.service_account(filename='access.json')
-    sh = gs.open_by_key('1feNhDOpE41gwPwuvtW_V5kZH2hFSt9qc8gZvmoH2UIE')
+    sh = gs.open_by_key(XLSX_TOKEN)
     return sh
 
 
