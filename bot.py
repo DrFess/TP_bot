@@ -92,14 +92,14 @@ async def send_daily_report_morning():
     await bot.send_message(chat_id=shevcov_id, text=text, disable_notification=True)
 
 
-@router.message()
-async def send_info_about_patients():
-    for doctor_id in department_doctors:
-        data = create_text_report(doctor_id)
-        try:
-            await bot.send_message(chat_id=str(doctor_id), text=data, reply_markup=back_button)
-        except Exception:
-            pass
+# @router.message()
+# async def send_info_about_patients():
+#     for doctor_id in department_doctors:
+#         data = create_text_report(doctor_id)
+#         try:
+#             await bot.send_message(chat_id=str(doctor_id), text=data, reply_markup=back_button)
+#         except Exception:
+#             pass
 
 
 async def scheduler():
