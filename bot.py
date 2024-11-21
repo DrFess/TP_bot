@@ -13,7 +13,7 @@ from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors, she
 from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department, back_button
 from utils import daily_summary, get_patients_info, create_text_report
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
-    show_patients_for_doctor
+    show_patients_for_doctor, add_patient_in_table
 
 bot = Bot(token=TOKEN, parse_mode='HTML')
 router = Router()
@@ -127,6 +127,7 @@ async def main():
         show_ID.router,
         add_doctor.router,
         show_patients_for_doctor.router,
+        add_patient_in_table.router,
     )
     asyncio.create_task(scheduler())
     await bot.delete_webhook(drop_pending_updates=True)
