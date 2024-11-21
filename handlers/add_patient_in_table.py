@@ -1,11 +1,11 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton,\
-    ReplyKeyboardBuilder
-from aiogram import types, F, Router
-from aiogram.filters.command import Command
+from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
+from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import Message, KeyboardButton, CallbackQuery
+from aiogram.types import Message, CallbackQuery
 
+from utils import connect_to_google_sheets, get_date_and_count_empty_slots, get_date_empty_slots, \
+    write_patient_info_in_table
 
 router = Router()
 
@@ -18,21 +18,12 @@ class WriteInTable(StatesGroup):
     step_5 = State()
 
 
-def some_func():
-    pass
-
-
-@router.message(Command('start'))
-async def cmd_start(message: types.Message):
-    builder = ReplyKeyboardBuilder()
-    builder.add(KeyboardButton(text="Записать пациента"))
-    await message.answer(text='test', reply_markup=builder.as_markup())
-
-
-@router.message(F.text=='Записать пациента')
+@router.message(F.text == 'Записать пациента')
 async def write_patient(message: Message, state: FSMContext):
+    sh = connect_to_google_sheets()
+    current_worksheet = sh.get_worksheet_by_id(20174943)
     builder = InlineKeyboardBuilder()
-    data = {'02.12.2024': 5, '05.12.2024': 3, '09.12.2024': 0, '12.12.2024': 3}
+    data = get_date_and_count_empty_slots(current_worksheet.get_all_values())
     for i in data:
         if data.get(i) > 0:
             builder.row(InlineKeyboardButton(text=i, callback_data=i))
@@ -77,8 +68,10 @@ async def take_diagnosis_answer_all_data(message: Message, state: FSMContext):
 @router.callback_query(WriteInTable.step_5, F.data == 'No')
 async def write_patient(callback: CallbackQuery, state: FSMContext):
     await state.clear()
+    sh = connect_to_google_sheets()
+    current_worksheet = sh.get_worksheet_by_id(20174943)
     builder = InlineKeyboardBuilder()
-    data = {'02.12.2024': 5, '05.12.2024': 3, '09.12.2024': 0, '12.12.2024': 3}  # данные для примера и тестирования
+    data = get_date_and_count_empty_slots(current_worksheet.get_all_values())
     for i in data:
         if data.get(i) > 0:
             builder.row(InlineKeyboardButton(text=i, callback_data=i))
@@ -88,9 +81,25 @@ async def write_patient(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(WriteInTable.step_5, F.data == 'Yes')
 async def write_surname(callback: CallbackQuery, state: FSMContext):
-    data = callback.message.text
     raw_date = await state.get_data()
     date = raw_date.get('date')
-    some_func()
-    await callback.message.answer('Запись в таблицу добавлена.')
+    fio = raw_date.get('fio')
+    birthday = raw_date.get('birthday')
+    diagnosis = raw_date.get('diagnosis')
+
+    sh = connect_to_google_sheets()
+    current_worksheet = sh.get_worksheet_by_id(20174943)
+    dates_with_empty_address_first_empty_slots = get_date_empty_slots(current_worksheet)
+    address_first_empty_cells = dates_with_empty_address_first_empty_slots.get(date)
+    address_empty_cell = address_first_empty_cells[0]
+
+    write_patient_info_in_table(
+        worksheet=current_worksheet,
+        first_cell=address_empty_cell,
+        fio_data=fio,
+        birthday_data=birthday,
+        diagnosis_data=diagnosis
+    )
+
+    await callback.message.answer('Запись в таблицу добавлена')
     await state.clear()

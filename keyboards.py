@@ -21,7 +21,8 @@ wishes_or_ban_department = ReplyKeyboardMarkup(
         [KeyboardButton(text='Ставить смены')],
         [KeyboardButton(text='Не ставить смены')],
         [KeyboardButton(text='Показать мой ID')],
-        [KeyboardButton(text='Покажи моих пациентов')]
+        [KeyboardButton(text='Покажи моих пациентов')],
+        [KeyboardButton(text='Записать пациента')]
     ],
     one_time_keyboard=True,
     resize_keyboard=True
@@ -36,7 +37,8 @@ moderator_menu = ReplyKeyboardMarkup(
         [KeyboardButton(text='Заполнить график пожеланиями врачей')],
         [KeyboardButton(text='Добавить врача в базу данных')],
         [KeyboardButton(text='Добавить telegram_id врача в базу данных')],
-        [KeyboardButton(text='Покажи моих пациентов')]
+        [KeyboardButton(text='Покажи моих пациентов')],
+        [KeyboardButton(text='Записать пациента')]
     ],
     one_time_keyboard=True,
     resize_keyboard=True

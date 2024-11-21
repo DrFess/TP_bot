@@ -287,3 +287,59 @@ def create_text_report(message_from_user_id: int) -> str:
         history_number = patient[2]
         text += history_number + '\n\n'
     return text
+
+
+def get_date_and_count_empty_slots(data_list: list) -> dict:
+    """Получение даты и количества пустых слотов, возвращает словарь"""
+    intermediate = []
+    for item in data_list:
+        if item[2] != 'диагноз':
+            intermediate.append(item)
+
+    empty_date = {}
+    empty_rows = 0
+    date = None
+    for row in intermediate:
+
+        current_value = row[0]
+        if current_value != '' and current_value[0].isdigit():
+            date = current_value
+            empty_rows = 0
+
+        elif current_value == '':
+            empty_rows += 1
+        empty_date[date] = empty_rows
+    return empty_date
+
+
+def get_date_empty_slots(worksheet: gspread.worksheet.Worksheet) -> dict:
+    """Получение словаря с ключами из дат и значениями списком адресов первой ячейки пустых строк под этой датой"""
+    ready_data = {}
+    count_rows = len(worksheet.get_all_values())
+    current_date = ''
+    for item in range(1, count_rows):
+        value_cell = worksheet.cell(item, 1)
+        if value_cell.value is not None:
+            if value_cell.value[0].isdigit():
+                ready_data[value_cell.value] = []
+                current_date = value_cell.value
+        elif value_cell.value is None:
+            ready_data[current_date].append(value_cell.address)
+
+    return ready_data
+
+
+def write_patient_info_in_table(
+        worksheet: gspread.worksheet.Worksheet,
+        first_cell: str,
+        fio_data: str,
+        birthday_data: str,
+        diagnosis_data: str
+):
+    """Записывает пациента в пустую строку по дате и адресу первой ячейки"""
+    second_cell = first_cell.replace('A', 'B')
+    third_cell = first_cell.replace('A', 'C')
+
+    worksheet.update_acell(first_cell, fio_data)
+    worksheet.update_acell(second_cell, birthday_data)
+    worksheet.update_acell(third_cell, diagnosis_data)
