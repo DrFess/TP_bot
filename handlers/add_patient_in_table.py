@@ -3,7 +3,6 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, CallbackQuery
-from bs4.diagnose import diagnose
 
 from utils import connect_to_google_sheets, get_date_and_count_empty_slots, get_date_empty_slots, \
     write_patient_info_in_table
