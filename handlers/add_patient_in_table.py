@@ -3,6 +3,7 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message, CallbackQuery
+from bs4.diagnose import diagnose
 
 from utils import connect_to_google_sheets, get_date_and_count_empty_slots, get_date_empty_slots, \
     write_patient_info_in_table
@@ -55,6 +56,7 @@ async def take_birthday_answer_diagnosis(message: Message, state: FSMContext):
 
 @router.message(WriteInTable.step_4)
 async def take_diagnosis_answer_all_data(message: Message, state: FSMContext):
+    await state.update_data(diagnosis=message.text)
     all_data = await state.get_data()
     patient = all_data.get('fio')
     date = all_data.get('date')
