@@ -11,7 +11,8 @@ from aiogram.types import Message
 from database.db import create_tables, add_weekday, get_doctor_telegram_id_by_surname
 from settings import TOKEN, moders, group_id, WEEK_DAYS, department_doctors, shevcov_id
 from keyboards import wishes_or_ban_TP, moderator_menu, wishes_or_ban_department, back_button
-from utils import daily_summary, get_patients_info, create_text_report
+from utils import daily_summary, get_patients_info, create_text_report, get_date_and_count_recorded_slots, \
+    connect_to_google_sheets
 from handlers import duty_handler, add_month_duty, wish_list, show_doctors_wishes, show_ID, add_doctor, \
     show_patients_for_doctor, add_patient_in_table
 
@@ -92,19 +93,25 @@ async def send_daily_report_morning():
     await bot.send_message(chat_id=shevcov_id, text=text, disable_notification=True)
 
 
-# @router.message()
-# async def send_info_about_patients():
-#     for doctor_id in department_doctors:
-#         data = create_text_report(doctor_id)
-#         try:
-#             await bot.send_message(chat_id=str(doctor_id), text=data, reply_markup=back_button)
-#         except Exception:
-#             pass
+@router.message(F.text == 'Госпитализации')
+async  def send_patients_hospitalization():
+    sh = connect_to_google_sheets()
+    current_worksheet = sh.get_worksheet_by_id(20174943)
+    data = get_date_and_count_recorded_slots(current_worksheet.get_all_values())
+    current_date = datetime.date.today().strftime('%d.%m.%Y')
+    text = 'Сегодня госпитализируются:\n'
+    for key in data:
+        if key == current_date and data.get(key) != '':
+            patients_list = data.get(key)
+            for patient in patients_list:
+                text += f'{patient}\n'
+        await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
 async def scheduler():
     aioschedule.every().day.at('17:00').do(send_daily_report)
     aioschedule.every().day.at('00:01').do(send_daily_report_morning)
+    aioschedule.every().day.at('00:30').do(send_patients_hospitalization)
     # aioschedule.every().monday.at('01:00').do(send_info_about_patients)
     # aioschedule.every().thursday.at('01:00').do(send_info_about_patients)
     # aioschedule.every().wednesday.at('01:00').do(send_info_about_patients)
