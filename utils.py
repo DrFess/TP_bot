@@ -3,6 +3,7 @@ from itertools import zip_longest
 import time
 import calendar
 import json
+from pprint import pprint
 
 import gspread
 import requests
@@ -343,3 +344,25 @@ def write_patient_info_in_table(
     worksheet.update_acell(first_cell, fio_data)
     worksheet.update_acell(second_cell, birthday_data)
     worksheet.update_acell(third_cell, diagnosis_data)
+
+
+def get_date_and_count_recorded_slots(data_list: list) -> dict:
+    """Получение даты и списка пациентов за эту дату"""
+    intermediate = []
+    for item in data_list:
+        if item[2] != 'диагноз':
+            intermediate.append(item)
+    recorded_date = {}
+    recorded_rows = []
+    date = None
+    for row in intermediate:
+
+        current_value = row[0]
+        if current_value != '' and current_value[0].isdigit():
+            date = current_value
+            recorded_rows = []
+
+        elif current_value != '' and current_value != '----':
+            recorded_rows.append(f'{row[0]}  {row[1]}  {row[2]}')
+        recorded_date[date] = recorded_rows
+    return recorded_date
