@@ -105,7 +105,7 @@ async  def send_patients_hospitalization():
             patients_list = data.get(key)
             for patient in patients_list:
                 text += f'{patient}\n'
-        await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
+            await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
 async def scheduler():
