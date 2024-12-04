@@ -99,12 +99,12 @@ async  def send_patients_hospitalization():
     current_worksheet = sh.get_worksheet_by_id(20174943)
     data = get_date_and_count_recorded_slots(current_worksheet.get_all_values())
     current_date = datetime.date.today().strftime('%d.%m.%Y')
-    text = 'Сегодня госпитализируются:\n'
+    text = 'Сегодня госпитализируются:\n\n'
     for key in data:
         if key == current_date and data.get(key) != '':
             patients_list = data.get(key)
             for patient in patients_list:
-                text += f'{patient}\n'
+                text += f'{patient}\n\n'
             await bot.send_message(chat_id=group_id, text=text, disable_notification=True)
 
 
