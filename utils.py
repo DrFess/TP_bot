@@ -3,6 +3,7 @@ from itertools import zip_longest
 import time
 import calendar
 import json
+from pprint import pprint
 
 import gspread
 import requests
@@ -260,7 +261,7 @@ def get_patients_info():
         count += 1
         data = get_all_patients_in_ward(ward)
         for item in data:
-            if len(item[0]) > 0:
+            if len(item[0]) > 0 and "'" not in item[0]:
                 doctors_patients[item[0]].append(f'{count} {item[1]} {item[2]}')
 
     return doctors_patients
